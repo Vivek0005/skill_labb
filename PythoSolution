@@ -1,0 +1,22 @@
+import numpy as np
+from scipy.optimize import minimize
+
+def euclidean_distance(p, points):
+    """Compute the sum of Euclidean distances from point `p` to all points."""
+    return np.sum(np.linalg.norm(points - p, axis=1))
+
+def find_geometric_median(points):
+    """Find the geometric median using optimization."""
+    # Initial guess: mean of the points (centroid)
+    initial_guess = np.mean(points, axis=0)
+
+    # Minimize the sum of Euclidean distances using the 'Nelder-Mead' method
+    result = minimize(euclidean_distance, initial_guess, args=(points,), method='Nelder-Mead')
+
+    # Return the coordinates of the geometric median
+    return result.x
+
+# Example usage
+points = np.array([[1, 2], [3, 4], [5, 6], [7, 8]])  # Example points in 2D
+geometric_median = find_geometric_median(points)
+print("Geometric median:", geometric_median)
